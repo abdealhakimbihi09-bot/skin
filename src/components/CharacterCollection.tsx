@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { HEROES } from '../constants';
+import { HEROES, hasWhiteBg } from '../constants';
 import { Shield, Swords, Heart, Search, Compass, Zap, Layers } from 'lucide-react';
 import { Hero } from '../types';
 
@@ -190,6 +190,7 @@ export default function CharacterCollection({ onSelectReward }: CharacterCollect
                       src={item.image} 
                       alt={item.name}
                       className="h-56 mt-4 w-full object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] contrast-105 brightness-95"
+                      style={hasWhiteBg(item.image) ? { filter: 'url(#remove-white)' } : undefined}
                       referrerPolicy="no-referrer"
                     />
 

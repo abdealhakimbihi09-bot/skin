@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ShieldCheck, Cpu, Key, CheckCircle, ExternalLink, RefreshCw, Layers, Award, ShieldAlert, Wifi, Terminal, ChevronRight } from 'lucide-react';
 import { CharacterReward, Hero } from '../types';
+import { hasWhiteBg } from '../constants';
 
 interface ClaimModalProps {
   isOpen: boolean;
@@ -220,7 +221,12 @@ export default function ClaimModal({ isOpen, onClose, rewardItem }: ClaimModalPr
                   {/* Item card mock details */}
                   <div className="flex items-center gap-4 bg-white/5 border border-white/5 rounded-2xl p-3 mb-6">
                     <div className="w-16 h-16 rounded-xl bg-black/40 border border-white/10 overflow-hidden relative flex items-center justify-center">
-                      <img src={rewardItem.image} alt={rewardItem.name} className="w-full h-full object-cover relative z-10" />
+                      <img 
+                        src={rewardItem.image} 
+                        alt={rewardItem.name} 
+                        className="w-full h-full object-cover relative z-10" 
+                        style={hasWhiteBg(rewardItem.image) ? { filter: 'url(#remove-white)' } : undefined}
+                      />
                       <div className="absolute inset-0 blur-md opacity-25" style={{ backgroundColor: accentColor }} />
                     </div>
                     <div>

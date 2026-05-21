@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Shield, Swords, Heart, Sparkles, Star, Award, ChevronRight, Zap, Play } from 'lucide-react';
 import { CharacterReward } from '../types';
+import { hasWhiteBg } from '../constants';
 
 interface CharacterCodexProps {
   onSelectReward: (item: CharacterReward) => void;
@@ -184,7 +185,12 @@ export default function CharacterCodex({ onSelectReward }: CharacterCodexProps) 
                 }}
               >
                 <div className="w-7 h-7 rounded-lg overflow-hidden border border-white/15 bg-black/40">
-                  <img src={char.portrait} alt={char.name} className="w-full h-full object-cover" />
+                  <img 
+                    src={char.portrait} 
+                    alt={char.name} 
+                    className="w-full h-full object-cover" 
+                    style={hasWhiteBg(char.portrait) ? { filter: 'url(#remove-white)' } : undefined}
+                  />
                 </div>
                 <span className="text-[10px] font-black uppercase tracking-widest">{char.name}</span>
               </button>
@@ -219,7 +225,8 @@ export default function CharacterCodex({ onSelectReward }: CharacterCodexProps) 
                     src={currentSkin.image}
                     alt={`${selectedChar.name} - ${currentSkin.name} Skin`}
                     className="h-80 sm:h-96 w-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)] scale-105"
-                    referrerPolicy=" referrerPolicy"
+                    referrerPolicy="no-referrer"
+                    style={hasWhiteBg(currentSkin.image) ? { filter: 'url(#remove-white)' } : undefined}
                   />
                 </motion.div>
               </AnimatePresence>
@@ -240,7 +247,12 @@ export default function CharacterCodex({ onSelectReward }: CharacterCodexProps) 
                       style={{ borderColor: isActive ? selectedChar.color : 'rgba(255,255,255,0.05)' }}
                     >
                       <div className="w-12 h-12 rounded-lg bg-black/50 overflow-hidden flex items-center justify-center border border-white/5">
-                        <img src={skin.image} alt={skin.name} className="w-full h-full object-cover" />
+                        <img 
+                          src={skin.image} 
+                          alt={skin.name} 
+                          className="w-full h-full object-cover" 
+                          style={hasWhiteBg(skin.image) ? { filter: 'url(#remove-white)' } : undefined}
+                        />
                       </div>
                       <span className="text-[8px] font-black uppercase tracking-wider">{skin.name}</span>
                     </button>

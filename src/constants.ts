@@ -121,3 +121,8 @@ export const HEROES: Hero[] = [
     color: '#00E5FF'
   }
 ];
+
+export function hasWhiteBg(url: string | undefined): boolean {
+  if (!url) return false;
+  return url.includes('postimg.cc') && !url.includes('Future-Foundation') && !url.includes('anti-venom');
+}

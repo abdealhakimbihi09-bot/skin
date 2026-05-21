@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { SKIN_REWARDS } from '../constants';
+import { SKIN_REWARDS, hasWhiteBg } from '../constants';
 import { Sparkles, Zap, Search, SlidersHorizontal, CheckSquare, Compass } from 'lucide-react';
 import { CharacterReward } from '../types';
 
@@ -213,6 +213,7 @@ export default function SkinRewards({ onSelectReward }: SkinRewardsProps) {
                       src={item.image} 
                       alt={item.name}
                       className="h-56 mt-4 w-full object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] contrast-105 brightness-95"
+                      style={hasWhiteBg(item.image) ? { filter: 'url(#remove-white)' } : undefined}
                       referrerPolicy="no-referrer"
                     />
 

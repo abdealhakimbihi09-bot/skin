@@ -10,6 +10,7 @@ import LiveActivity from './components/LiveActivity';
 import CharacterCodex from './components/CharacterCodex';
 import SkinRewards from './components/SkinRewards';
 import CharacterCollection from './components/CharacterCollection';
+import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
 import Background from './components/Background';
 import ClaimModal from './components/ClaimModal';
@@ -68,6 +69,7 @@ export default function App() {
         <CharacterCodex onSelectReward={handleSelectReward} />
         <SkinRewards onSelectReward={handleSelectReward} />
         <CharacterCollection onSelectReward={handleSelectReward} />
+        <Newsletter />
       </main>
 
       <Footer />
@@ -77,6 +79,20 @@ export default function App() {
         onClose={() => setIsModalOpen(false)}
         rewardItem={selectedItem}
       />
+
+      {/* Global SVG Filters for Image Background Knockout */}
+      <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none', width: 0, height: 0 }}>
+        <defs>
+          <filter id="remove-white" colorInterpolationFilters="sRGB">
+            <feColorMatrix type="matrix" values="
+              1 0 0 0 0
+              0 1 0 0 0
+              0 0 1 0 0
+              -4 -4 -4 12 -0.05
+            " />
+          </filter>
+        </defs>
+      </svg>
 
       {/* Verification overlay populator */}
       <motion.div 
