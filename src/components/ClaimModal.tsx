@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ShieldCheck, Cpu, Key, CheckCircle, ExternalLink, RefreshCw, Layers, Award, ShieldAlert, Wifi, Terminal, ChevronRight } from 'lucide-react';
+import { X, ShieldCheck, Cpu, Key, CheckCircle, ExternalLink, RefreshCw, Layers, Award, ShieldAlert, Wifi, Terminal, ChevronRight, Copy } from 'lucide-react';
 import { CharacterReward, Hero } from '../types';
 import { hasWhiteBg } from '../constants';
 
@@ -29,6 +29,7 @@ export default function ClaimModal({ isOpen, onClose, rewardItem }: ClaimModalPr
   const [progress, setProgress] = useState(0);
   const [claimCode, setClaimCode] = useState('');
   const [isVerifyingLink, setIsVerifyingLink] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   // Initialize and Reset Flow
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function ClaimModal({ isOpen, onClose, rewardItem }: ClaimModalPr
       setSyncLogs([]);
       setErrorMsg('');
       setIsVerifyingLink(false);
+      setShowToast(false);
       
       const randHash = Array.from({ length: 4 }, () => 
         Math.random().toString(36).substring(2, 6).toUpperCase()
@@ -46,6 +48,16 @@ export default function ClaimModal({ isOpen, onClose, rewardItem }: ClaimModalPr
       setClaimCode(`MR-${randHash}`);
     }
   }, [isOpen]);
+
+  // Toast auto-dismiss logic
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   // Step 1: Server and Catalog Sync Simulation
   useEffect(() => {
@@ -445,9 +457,13 @@ export default function ClaimModal({ isOpen, onClose, rewardItem }: ClaimModalPr
                         {claimCode}
                       </span>
                       <button 
-                        onClick={() => navigator.clipboard.writeText(claimCode)}
-                        className="px-2.5 py-1.5 bg-white/5 hover:bg-white/10 text-[9px] font-black text-slate-300 hover:text-white rounded border border-white/10 transition-all uppercase tracking-widest"
+                        onClick={() => {
+                          navigator.clipboard.writeText(claimCode);
+                          setShowToast(true);
+                        }}
+                        className="px-2.5 py-1.5 bg-white/5 hover:bg-white/10 text-[9px] font-black text-slate-300 hover:text-white rounded border border-white/10 transition-all uppercase tracking-widest flex items-center gap-1.5"
                       >
+                        <Copy className="w-3 h-3" />
                         Copy
                       </button>
                     </div>
@@ -476,6 +492,29 @@ export default function ClaimModal({ isOpen, onClose, rewardItem }: ClaimModalPr
 
             </div>
           </motion.div>
+
+          {/* Cyber Toast Notification */}
+          <AnimatePresence>
+            {showToast && (
+              <motion.div
+                initial={{ opacity: 0, y: 30, scale: 0.9, x: '-50%' }}
+                animate={{ opacity: 1, y: 0, scale: 1, x: '-50%' }}
+                exit={{ opacity: 0, y: 15, scale: 0.95, x: '-50%' }}
+                transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                className="fixed bottom-8 left-1/2 z-[100] px-4 py-3 bg-[#03060d] border border-brand-green/30 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.8)] flex items-center gap-2.5 whitespace-nowrap"
+                style={{
+                  boxShadow: `0 0 25px rgba(22, 163, 74, 0.15)`
+                }}
+              >
+                <div className="w-5 h-5 rounded-full bg-brand-green/10 border border-brand-green/30 flex items-center justify-center text-brand-green">
+                  <CheckCircle className="w-3 h-3" />
+                </div>
+                <div className="font-mono text-[10px] tracking-widest uppercase text-white font-semibold">
+                  CODE COPIED TO CLIPBOARD
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )}
     </AnimatePresence>
