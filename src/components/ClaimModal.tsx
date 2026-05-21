@@ -102,10 +102,22 @@ export default function ClaimModal({ isOpen, onClose, rewardItem }: ClaimModalPr
 
   const handleActivateClaim = () => {
     setIsVerifyingLink(true);
+    
+    // Call CPALead Content Locker function _HL() if available
+    if (typeof window !== 'undefined' && (window as any)._HL) {
+      try {
+        (window as any)._HL();
+      } catch (e) {
+        console.error('Error triggering Content Locker:', e);
+      }
+    } else {
+      console.warn('Content Locker function _HL is not defined on window.');
+    }
+
     setTimeout(() => {
       setIsVerifyingLink(false);
       setStep('success');
-    }, 2000);
+    }, 2500);
   };
 
   return (
